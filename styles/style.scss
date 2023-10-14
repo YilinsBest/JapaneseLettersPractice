@@ -1,0 +1,114 @@
+@font-face {
+  font-family: "myfont";
+  src: url("../assets/font/MaShanZheng-Regular.ttf");
+}
+
+$themeColor: #ffc7c7;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "myfont";
+}
+
+body {
+  background-image: url("../assets/images/bg-2.jpg");
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+header {
+  margin-bottom: 2rem;
+
+  .intro {
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)),
+      url("../assets/images/bg-1.jpg") no-repeat 0% 20% / cover;
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: #444f5a;
+  }
+
+  ul {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    background-color: #ff9999;
+
+    li {
+      a {
+        text-decoration: none;
+        font-size: 2rem;
+        color: #444f5a;
+        transition: all 150ms ease-in;
+
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+
+  table {
+    font-size: 2rem;
+    width: 80%;
+    text-align: center;
+    border: 2px solid black;
+    border-collapse: collapse;
+
+    td {
+      border: 2px solid black;
+      cursor: pointer;
+      &:hover {
+        background-color: $themeColor;
+        transition: all 150ms ease-in;
+      }
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+section.controller {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  p {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+  }
+  input {
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    height: 2rem;
+    width: 50%;
+    margin-bottom: 2px;
+  }
+  button {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    background-color: rgba(0, 0, 0, 0);
+    &:hover {
+      background-color: $themeColor;
+      transition: all 150ms ease-in;
+    }
+  }
+}

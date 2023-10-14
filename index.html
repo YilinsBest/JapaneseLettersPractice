@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>日本语五十音听写练习</title>
+    <link rel="icon" href="assets/android-chrome-192x192.png" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <main>
+    <header>
+      <div class="intro">
+        <h1>日本语五十音听写练习</h1>
+        <h3>
+          五十音，又称五十音图，是将日语的假名（平假名、片假名）以母音、子音为分类依据所排列出来的一个图表。
+        </h3>
+      </div>
+      <nav>
+        <ul id="show-table-btns">
+          <li><a href="#" data-table="1">平假</a></li>
+          <li><a href="#" data-table="2">片假</a></li>
+          <li><a href="#" data-table="3">平-片假对应</a></li>
+          <li><a href="#" data-table="4">浊音</a></li>
+          <li><a href="#" data-table="5">拗音</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <body>
+      <!-- 制作选择器，选择需要听写的数量和时间间隔 -->
+      <section class="controller">
+        <p>说明：此网站初衷作者正在学习日语五十音.</p>
+        <p>临时起意作为对javascript的练习</p>
+        <p>请点击导航栏的分类，并输入相应的数字</p>
+        <p>Fn+F12再点击控制台console查看结果</p>
+        <p>特别鸣谢：Matthew Pryer同学的答疑解惑</p>
+        <h1>对音节进行随机播放</h1>
+        <label>请输入需要听写的个数</label>
+        <input
+          type="number"
+          placeholder="不小于2的数"
+          id="numbers"
+          min="2"
+          max="51"
+        />
+        <label>请输入听写每个音节间隔</label>
+        <input type="number" placeholder="推荐为4s" id="spacetime" min="2" />
+        <button id="start" onclick="dictation(tdIds)">开始！</button>
+      </section>
+      <!-- 制作点读表格 -->
+      <section class="tables">
+        <div id="table-1" class="table-container hidden" data-table="1">
+          <table>
+            <tr>
+              <td id="あ">
+                あ<audio src="assets/audio/audio-a.MP3" id="audio-あ"></audio>
+              </td>
+              <td id="い">
+                い<audio src="assets/audio/audio-i.MP3" id="audio-い"></audio>
+              </td>
+              <td id="う">
+                う<audio src="assets/audio/audio-u.MP3" id="audio-う"></audio>
+              </td>
+              <td id="え">
+                え<audio src="assets/audio/audio-e.MP3" id="audio-え"></audio>
+              </td>
+              <td id="お">
+                お<audio src="assets/audio/audio-o.MP3" id="audio-お"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="か">
+                か<audio src="assets/audio/audio-ka.MP3" id="audio-か"></audio>
+              </td>
+              <td id="き">
+                き<audio src="assets/audio/audio-ki.MP3" id="audio-き"></audio>
+              </td>
+              <td id="く">
+                く<audio src="assets/audio/audio-ku.MP3" id="audio-く"></audio>
+              </td>
+              <td id="け">
+                け<audio src="assets/audio/audio-ke.MP3" id="audio-け"></audio>
+              </td>
+              <td id="こ">
+                こ<audio src="assets/audio/audio-ko.MP3" id="audio-こ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="さ">
+                さ<audio src="assets/audio/audio-sa.MP3" id="audio-さ"></audio>
+              </td>
+              <td id="し">
+                し<audio src="assets/audio/audio-shi.MP3" id="audio-し"></audio>
+              </td>
+              <td id="す">
+                す<audio src="assets/audio/audio-su.MP3" id="audio-す"></audio>
+              </td>
+              <td id="せ">
+                せ<audio src="assets/audio/audio-se.MP3" id="audio-せ"></audio>
+              </td>
+              <td id="そ">
+                そ<audio src="assets/audio/audio-so.MP3" id="audio-そ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="た">
+                た<audio src="assets/audio/audio-ta.MP3" id="audio-た"></audio>
+              </td>
+              <td id="ち">
+                ち<audio src="assets/audio/audio-chi.MP3" id="audio-ち"></audio>
+              </td>
+              <td id="つ">
+                つ<audio src="assets/audio/audio-tsu.MP3" id="audio-つ"></audio>
+              </td>
+              <td id="て">
+                て<audio src="assets/audio/audio-te.MP3" id="audio-て"></audio>
+              </td>
+              <td id="と">
+                と<audio src="assets/audio/audio-to.MP3" id="audio-と"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="な">
+                な<audio src="assets/audio/audio-na.MP3" id="audio-な"></audio>
+              </td>
+              <td id="に">
+                に<audio src="assets/audio/audio-ni.MP3" id="audio-に"></audio>
+              </td>
+              <td id="ぬ">
+                ぬ<audio src="assets/audio/audio-nu.MP3" id="audio-ぬ"></audio>
+              </td>
+              <td id="ね">
+                ね<audio src="assets/audio/audio-ne.MP3" id="audio-ね"></audio>
+              </td>
+              <td id="の">
+                の<audio src="assets/audio/audio-no.MP3" id="audio-の"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="は">
+                は<audio src="assets/audio/audio-ha.MP3" id="audio-は"></audio>
+              </td>
+              <td id="ひ">
+                ひ<audio src="assets/audio/audio-hi.MP3" id="audio-ひ"></audio>
+              </td>
+              <td id="ふ">
+                ふ<audio src="assets/audio/audio-fu.MP3" id="audio-ふ"></audio>
+              </td>
+              <td id="へ">
+                へ<audio src="assets/audio/audio-he.MP3" id="audio-へ"></audio>
+              </td>
+              <td id="ほ">
+                ほ<audio src="assets/audio/audio-ho.MP3" id="audio-ほ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ま">
+                ま<audio src="assets/audio/audio-ma.MP3" id="audio-ま"></audio>
+              </td>
+              <td id="み">
+                み<audio src="assets/audio/audio-mi.MP3" id="audio-み"></audio>
+              </td>
+              <td id="む">
+                む<audio src="assets/audio/audio-mu.MP3" id="audio-む"></audio>
+              </td>
+              <td id="め">
+                め<audio src="assets/audio/audio-me.MP3" id="audio-め"></audio>
+              </td>
+              <td id="も">
+                も<audio src="assets/audio/audio-mo.MP3" id="audio-も"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="や">
+                や<audio src="assets/audio/audio-ya.MP3" id="audio-や"></audio>
+              </td>
+              <td id="い">
+                い<audio src="assets/audio/audio-i.MP3" id="audio-い"></audio>
+              </td>
+              <td id="ゆ">
+                ゆ<audio src="assets/audio/audio-yu.MP3" id="audio-ゆ"></audio>
+              </td>
+              <td id="え">
+                え<audio src="assets/audio/audio-e.MP3" id="audio-え"></audio>
+              </td>
+              <td id="よ">
+                よ<audio src="assets/audio/audio-yo.MP3" id="audio-よ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ら">
+                ら<audio src="assets/audio/audio-ra.MP3" id="audio-ら"></audio>
+              </td>
+              <td id="り">
+                り<audio src="assets/audio/audio-ri.MP3" id="audio-り"></audio>
+              </td>
+              <td id="る">
+                る<audio src="assets/audio/audio-ru.MP3" id="audio-る"></audio>
+              </td>
+              <td id="れ">
+                れ<audio src="assets/audio/audio-re.MP3" id="audio-れ"></audio>
+              </td>
+              <td id="ろ">
+                ろ<audio src="assets/audio/audio-ro.MP3" id="audio-ろ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="わ">
+                わ<audio src="assets/audio/audio-wa.MP3" id="audio-わ"></audio>
+              </td>
+              <td id="い">
+                い<audio src="assets/audio/audio-i.MP3" id="audio-い"></audio>
+              </td>
+              <td id="う">
+                う<audio src="assets/audio/audio-u.MP3" id="audio-う"></audio>
+              </td>
+              <td id="え">
+                え<audio src="assets/audio/audio-e.MP3" id="audio-え"></audio>
+              </td>
+              <td id="を">
+                を<audio src="assets/audio/audio-wo.MP3" id="audio-を"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ん">
+                ん<audio src="assets/audio/audio-n.MP3" id="audio-ん"></audio>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="table-2" class="table-container hidden" data-table="2">
+          <table>
+            <tr>
+              <td id="ア">
+                ア<audio src="assets/audio/audio-a.MP3" id="audio-ア"></audio>
+              </td>
+              <td id="イ">
+                イ<audio src="assets/audio/audio-i.MP3" id="audio-イ"></audio>
+              </td>
+              <td id="ウ">
+                ウ<audio src="assets/audio/audio-u.MP3" id="audio-ウ"></audio>
+              </td>
+              <td id="エ">
+                エ<audio src="assets/audio/audio-e.MP3" id="audio-エ"></audio>
+              </td>
+              <td id="オ">
+                オ<audio src="assets/audio/audio-o.MP3" id="audio-オ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="か">
+                カ<audio src="assets/audio/audio-ka.MP3" id="audio-か"></audio>
+              </td>
+              <td id="キ">
+                キ<audio src="assets/audio/audio-ki.MP3" id="audio-キ"></audio>
+              </td>
+              <td id="ク">
+                ク<audio src="assets/audio/audio-ku.MP3" id="audio-ク"></audio>
+              </td>
+              <td id="ケ">
+                ケ<audio src="assets/audio/audio-ke.MP3" id="audio-ケ"></audio>
+              </td>
+              <td id="コ">
+                コ<audio src="assets/audio/audio-ko.MP3" id="audio-コ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="サ">
+                サ<audio src="assets/audio/audio-sa.MP3" id="audio-サ"></audio>
+              </td>
+              <td id="シ">
+                シ<audio src="assets/audio/audio-shi.MP3" id="audio-シ"></audio>
+              </td>
+              <td id="ス">
+                ス<audio src="assets/audio/audio-su.MP3" id="audio-ス"></audio>
+              </td>
+              <td id="セ">
+                セ<audio src="assets/audio/audio-se.MP3" id="audio-セ"></audio>
+              </td>
+              <td id="ソ">
+                ソ<audio src="assets/audio/audio-so.MP3" id="audio-ソ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="タ">
+                タ<audio src="assets/audio/audio-ta.MP3" id="audio-タ"></audio>
+              </td>
+              <td id="チ">
+                チ<audio src="assets/audio/audio-chi.MP3" id="audio-チ"></audio>
+              </td>
+              <td id="ツ">
+                ツ<audio src="assets/audio/audio-tsu.MP3" id="audio-ツ"></audio>
+              </td>
+              <td id="テ">
+                テ<audio src="assets/audio/audio-te.MP3" id="audio-テ"></audio>
+              </td>
+              <td id="ト">
+                ト<audio src="assets/audio/audio-to.MP3" id="audio-ト"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ナ">
+                ナ<audio src="assets/audio/audio-na.MP3" id="audio-ナ"></audio>
+              </td>
+              <td id="ニ">
+                ニ<audio src="assets/audio/audio-ni.MP3" id="audio-ニ"></audio>
+              </td>
+              <td id="ヌ">
+                ヌ<audio src="assets/audio/audio-nu.MP3" id="audio-ヌ"></audio>
+              </td>
+              <td id="ネ">
+                ネ<audio src="assets/audio/audio-ne.MP3" id="audio-ネ"></audio>
+              </td>
+              <td id="ノ">
+                ノ<audio src="assets/audio/audio-no.MP3" id="audio-ノ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ハ">
+                ハ<audio src="assets/audio/audio-ha.MP3" id="audio-ハ"></audio>
+              </td>
+              <td id="ヒ">
+                ヒ<audio src="assets/audio/audio-hi.MP3" id="audio-ヒ"></audio>
+              </td>
+              <td id="フ">
+                フ<audio src="assets/audio/audio-fu.MP3" id="audio-フ"></audio>
+              </td>
+              <td id="ヘ">
+                ヘ<audio src="assets/audio/audio-he.MP3" id="audio-ヘ"></audio>
+              </td>
+              <td id="ホ">
+                ホ<audio src="assets/audio/audio-ho.MP3" id="audio-ホ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="マ">
+                マ<audio src="assets/audio/audio-ma.MP3" id="audio-マ"></audio>
+              </td>
+              <td id="ミ">
+                ミ<audio src="assets/audio/audio-mi.MP3" id="audio-ミ"></audio>
+              </td>
+              <td id="ム">
+                ム<audio src="assets/audio/audio-mu.MP3" id="audio-ム"></audio>
+              </td>
+              <td id="メ">
+                メ<audio src="assets/audio/audio-me.MP3" id="audio-メ"></audio>
+              </td>
+              <td id="モ">
+                モ<audio src="assets/audio/audio-mo.MP3" id="audio-モ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ヤ">
+                ヤ<audio src="assets/audio/audio-ya.MP3" id="audio-ヤ"></audio>
+              </td>
+              <td id="イ">
+                イ<audio src="assets/audio/audio-i.MP3" id="audio-イ"></audio>
+              </td>
+              <td id="ユ">
+                ユ<audio src="assets/audio/audio-yu.MP3" id="audio-ユ"></audio>
+              </td>
+              <td id="エ">
+                エ<audio src="assets/audio/audio-e.MP3" id="audio-エ"></audio>
+              </td>
+              <td id="ヨ">
+                ヨ<audio src="assets/audio/audio-yo.MP3" id="audio-ヨ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ラ">
+                ラ<audio src="assets/audio/audio-ra.MP3" id="audio-ラ"></audio>
+              </td>
+              <td id="リ">
+                リ<audio src="assets/audio/audio-ri.MP3" id="audio-リ"></audio>
+              </td>
+              <td id="ル">
+                ル<audio src="assets/audio/audio-ru.MP3" id="audio-ル"></audio>
+              </td>
+              <td id="レ">
+                レ<audio src="assets/audio/audio-re.MP3" id="audio-レ"></audio>
+              </td>
+              <td id="ロ">
+                ロ<audio src="assets/audio/audio-ro.MP3" id="audio-ロ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ワ">
+                ワ<audio src="assets/audio/audio-wa.MP3" id="audio-ワ"></audio>
+              </td>
+              <td id="イ">
+                イ<audio src="assets/audio/audio-i.MP3" id="audio-イ"></audio>
+              </td>
+              <td id="ウ">
+                ウ<audio src="assets/audio/audio-u.MP3" id="audio-ウ"></audio>
+              </td>
+              <td id="エ">
+                エ<audio src="assets/audio/audio-e.MP3" id="audio-エ"></audio>
+              </td>
+              <td id="ヲ">
+                ヲ<audio src="assets/audio/audio-wo.MP3" id="audio-ヲ"></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ン">
+                ン<audio src="assets/audio/audio-n.MP3" id="audio-ン"></audio>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="table-3" class="table-container hidden" data-table="3">
+          <table>
+            <tr>
+              <td id="あ・ア">
+                あ・ア<audio
+                  src="assets/audio/audio-a.MP3"
+                  id="audio-あ・ア"
+                ></audio>
+              </td>
+              <td id="い・イ">
+                い・イ<audio
+                  src="assets/audio/audio-i.MP3"
+                  id="audio-い・イ"
+                ></audio>
+              </td>
+              <td id="う・ウ">
+                う・ウ<audio
+                  src="assets/audio/audio-u.MP3"
+                  id="audio-う・ウ"
+                ></audio>
+              </td>
+              <td id="う・エ">
+                え・エ<audio
+                  src="assets/audio/audio-e.MP3"
+                  id="audio-う・エ"
+                ></audio>
+              </td>
+              <td id="え・オ">
+                え・オ<audio
+                  src="assets/audio/audio-o.MP3"
+                  id="audio-え・オ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="か・カ">
+                か・カ<audio
+                  src="assets/audio/audio-ka.MP3"
+                  id="audio-か・カ"
+                ></audio>
+              </td>
+              <td id="き・キ">
+                き・キ<audio
+                  src="assets/audio/audio-ki.MP3"
+                  id="audio-き・キ"
+                ></audio>
+              </td>
+              <td id="く・ク">
+                く・ク<audio
+                  src="assets/audio/audio-ku.MP3"
+                  id="audio-く・ク"
+                ></audio>
+              </td>
+              <td id="け・ケ">
+                け・ケ<audio
+                  src="assets/audio/audio-ke.MP3"
+                  id="audio-け・ケ"
+                ></audio>
+              </td>
+              <td id="こ・コ">
+                こ・コ<audio
+                  src="assets/audio/audio-ko.MP3"
+                  id="audio-こ・コ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="さ・サ">
+                さ・サ<audio
+                  src="assets/audio/audio-sa.MP3"
+                  id="audio-さ・サ"
+                ></audio>
+              </td>
+              <td id="し・シ">
+                し・シ<audio
+                  src="assets/audio/audio-shi.MP3"
+                  id="audio-し・シ"
+                ></audio>
+              </td>
+              <td id="す・ス">
+                す・ス<audio
+                  src="assets/audio/audio-su.MP3"
+                  id="audio-す・ス"
+                ></audio>
+              </td>
+              <td id="せ・セ">
+                せ・セ<audio
+                  src="assets/audio/audio-se.MP3"
+                  id="audio-せ・セ"
+                ></audio>
+              </td>
+              <td id="そ・ソ">
+                そ・ソ<audio
+                  src="assets/audio/audio-so.MP3"
+                  id="audio-そ・ソ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="た・タ">
+                た・タ<audio
+                  src="assets/audio/audio-ta.MP3"
+                  id="audio-た・タ"
+                ></audio>
+              </td>
+              <td id="ち・チ">
+                ち・チ<audio
+                  src="assets/audio/audio-chi.MP3"
+                  id="audio-ち・チ"
+                ></audio>
+              </td>
+              <td id="つ・ツ">
+                つ・ツ<audio
+                  src="assets/audio/audio-tsu.MP3"
+                  id="audio-つ・ツ"
+                ></audio>
+              </td>
+              <td id="て・テ">
+                て・テ<audio
+                  src="assets/audio/audio-te.MP3"
+                  id="audio-て・テ"
+                ></audio>
+              </td>
+              <td id="と・ト">
+                と・ト<audio
+                  src="assets/audio/audio-to.MP3"
+                  id="audio-と・ト"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="な・ナ">
+                な・ナ<audio
+                  src="assets/audio/audio-na.MP3"
+                  id="audio-な・ナ"
+                ></audio>
+              </td>
+              <td id="に・ニ">
+                に・ニ<audio
+                  src="assets/audio/audio-ni.MP3"
+                  id="audio-に・ニ"
+                ></audio>
+              </td>
+              <td id="ぬ・ヌ">
+                ぬ・ヌ<audio
+                  src="assets/audio/audio-nu.MP3"
+                  id="audio-ぬ・ヌ"
+                ></audio>
+              </td>
+              <td id="ね・ネ">
+                ね・ネ<audio
+                  src="assets/audio/audio-ne.MP3"
+                  id="audio-ね・ネ"
+                ></audio>
+              </td>
+              <td id="の・ノ">
+                の・ノ<audio
+                  src="assets/audio/audio-no.MP3"
+                  id="audio-の・ノ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="は・ハ">
+                は・ハ<audio
+                  src="assets/audio/audio-ha.MP3"
+                  id="audio-は・ハ"
+                ></audio>
+              </td>
+              <td id="ひ・ヒ">
+                ひ・ヒ<audio
+                  src="assets/audio/audio-hi.MP3"
+                  id="audio-ひ・ヒ"
+                ></audio>
+              </td>
+              <td id="ふ・フ">
+                ふ・フ<audio
+                  src="assets/audio/audio-fu.MP3"
+                  id="audio-ふ・フ"
+                ></audio>
+              </td>
+              <td id="へ・ヘ">
+                へ・ヘ<audio
+                  src="assets/audio/audio-he.MP3"
+                  id="audio-へ・ヘ"
+                ></audio>
+              </td>
+              <td id="ほ・ホ">
+                ほ・ホ<audio
+                  src="assets/audio/audio-ho.MP3"
+                  id="audio-ほ・ホ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ま・マ">
+                ま・マ<audio
+                  src="assets/audio/audio-ma.MP3"
+                  id="audio-ま・マ"
+                ></audio>
+              </td>
+              <td id="み・ミ">
+                み・ミ<audio
+                  src="assets/audio/audio-mi.MP3"
+                  id="audio-み・ミ"
+                ></audio>
+              </td>
+              <td id="む・ム">
+                む・ム<audio
+                  src="assets/audio/audio-mu.MP3"
+                  id="audio-む・ム"
+                ></audio>
+              </td>
+              <td id="め・メ">
+                め・メ<audio
+                  src="assets/audio/audio-me.MP3"
+                  id="audio-め・メ"
+                ></audio>
+              </td>
+              <td id="も・モ">
+                も・モ<audio
+                  src="assets/audio/audio-mo.MP3"
+                  id="audio-も・モ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="や・ヤ">
+                や・ヤ<audio
+                  src="assets/audio/audio-ya.MP3"
+                  id="audio-や・ヤ"
+                ></audio>
+              </td>
+              <td id="い・イ">
+                い・イ<audio
+                  src="assets/audio/audio-i.MP3"
+                  id="audio-い・イ"
+                ></audio>
+              </td>
+              <td id="ゆ・ユ">
+                ゆ・ユ<audio
+                  src="assets/audio/audio-yu.MP3"
+                  id="audio-ゆ・ユ"
+                ></audio>
+              </td>
+              <td id="う・エ">
+                え・エ<audio
+                  src="assets/audio/audio-e.MP3"
+                  id="audio-う・エ"
+                ></audio>
+              </td>
+              <td id="よ・ヨ">
+                よ・ヨ<audio
+                  src="assets/audio/audio-yo.MP3"
+                  id="audio-よ・ヨ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ら・ラ">
+                ら・ラ<audio
+                  src="assets/audio/audio-ra.MP3"
+                  id="audio-ら・ラ"
+                ></audio>
+              </td>
+              <td id="り・リ">
+                り・リ<audio
+                  src="assets/audio/audio-ri.MP3"
+                  id="audio-り・リ"
+                ></audio>
+              </td>
+              <td id="る・ル">
+                る・ル<audio
+                  src="assets/audio/audio-ru.MP3"
+                  id="audio-る・ル"
+                ></audio>
+              </td>
+              <td id="れ・レ">
+                れ・レ<audio
+                  src="assets/audio/audio-re.MP3"
+                  id="audio-れ・レ"
+                ></audio>
+              </td>
+              <td id="ろ・ロ">
+                ろ・ロ<audio
+                  src="assets/audio/audio-ro.MP3"
+                  id="audio-ろ・ロ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="わ・ワ">
+                わ・ワ<audio
+                  src="assets/audio/audio-wa.MP3"
+                  id="audio-わ・ワ"
+                ></audio>
+              </td>
+              <td id="い・イ">
+                い・イ<audio
+                  src="assets/audio/audio-i.MP3"
+                  id="audio-い・イ"
+                ></audio>
+              </td>
+              <td id="う・ウ">
+                う・ウ<audio
+                  src="assets/audio/audio-u.MP3"
+                  id="audio-う・ウ"
+                ></audio>
+              </td>
+              <td id="う・エ">
+                え・エ<audio
+                  src="assets/audio/audio-e.MP3"
+                  id="audio-う・エ"
+                ></audio>
+              </td>
+              <td id="を・ヲ">
+                を・ヲ<audio
+                  src="assets/audio/audio-wo.MP3"
+                  id="audio-を・ヲ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ん・ン">
+                ん・ン<audio
+                  src="assets/audio/audio-n.MP3"
+                  id="audio-ん・ン"
+                ></audio>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="table-4" class="table-container hidden" data-table="4">
+          <table>
+            <tr>
+              <td id="が・ガ">
+                が・ガ<audio
+                  src="assets/audio/audio-ga.MP3"
+                  id="audio-が・ガ"
+                ></audio>
+              </td>
+              <td id="ぎ・ギ">
+                ぎ・ギ<audio
+                  src="assets/audio/audio-gi.MP3"
+                  id="audio-ぎ・ギ"
+                ></audio>
+              </td>
+              <td id="ぐ・グ">
+                ぐ・グ<audio
+                  src="assets/audio/audio-gu.MP3"
+                  id="audio-ぐ・グ"
+                ></audio>
+              </td>
+              <td id="げ・ゲ">
+                げ・ゲ<audio
+                  src="assets/audio/audio-ge.MP3"
+                  id="audio-げ・ゲ"
+                ></audio>
+              </td>
+              <td id="ご・ゴ">
+                ご・ゴ<audio
+                  src="assets/audio/audio-go.MP3 "
+                  id="audio-ご・ゴ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ざ・ザ">
+                ざ・ザ<audio
+                  src="assets/audio/audio-za.MP3"
+                  id="audio-ざ・ザ"
+                ></audio>
+              </td>
+              <td id="じ・ジ">
+                じ・ジ<audio
+                  src="assets/audio/audio-ji.MP3"
+                  id="audio-じ・ジ"
+                ></audio>
+              </td>
+              <td id="ず・ズ">
+                ず・ズ<audio
+                  src="assets/audio/audio-zu.MP3"
+                  id="audio-ず・ズ"
+                ></audio>
+              </td>
+              <td id="ぜ・ゼ">
+                ぜ・ゼ<audio
+                  src="assets/audio/audio-ze.MP3"
+                  id="audio-ぜ・ゼ"
+                ></audio>
+              </td>
+              <td id="ぞ・ゾ">
+                ぞ・ゾ<audio
+                  src="assets/audio/audio-zo.MP3"
+                  id="audio-ぞ・ゾ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="だ・ダ">
+                だ・ダ<audio
+                  src="assets/audio/audio-da.MP3"
+                  id="audio-だ・ダ"
+                ></audio>
+              </td>
+              <td id="ぢ・ヂ">
+                ぢ・ヂ<audio
+                  src="assets/audio/audio-ji.MP3"
+                  id="audio-ぢ・ヂ"
+                ></audio>
+              </td>
+              <td id="づ・ヅ">
+                づ・ヅ<audio
+                  src="assets/audio/audio-zu.MP3"
+                  id="audio-づ・ヅ"
+                ></audio>
+              </td>
+              <td id="で・デ">
+                で・デ<audio
+                  src="assets/audio/audio-de.MP3"
+                  id="audio-で・デ"
+                ></audio>
+              </td>
+              <td id="ど・ド">
+                ど・ド<audio
+                  src="assets/audio/audio-do.MP3"
+                  id="audio-ど・ド"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ば・バ">
+                ば・バ<audio
+                  src="assets/audio/audio-ba.MP3"
+                  id="audio-ば・バ"
+                ></audio>
+              </td>
+              <td id="び・ビ">
+                び・ビ<audio
+                  src="assets/audio/audio-bi.MP3"
+                  id="audio-び・ビ"
+                ></audio>
+              </td>
+              <td id="ぶ・ブ">
+                ぶ・ブ<audio
+                  src="assets/audio/audio-bu.MP3"
+                  id="audio-ぶ・ブ"
+                ></audio>
+              </td>
+              <td id="べ・ベ">
+                べ・ベ<audio
+                  src="assets/audio/audio-be.MP3"
+                  id="audio-べ・ベ"
+                ></audio>
+              </td>
+              <td id="ぼ・ボ">
+                ぼ・ボ<audio
+                  src="assets/audio/audio-bo.MP3"
+                  id="audio-ぼ・ボ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ぱ・パ">
+                ぱ・パ<audio
+                  src="assets/audio/audio-pa.MP3"
+                  id="audio-ぱ・パ"
+                ></audio>
+              </td>
+              <td id="ぴ・ピ">
+                ぴ・ピ<audio
+                  src="assets/audio/audio-pi.MP3"
+                  id="audio-ぴ・ピ"
+                ></audio>
+              </td>
+              <td id="ぷ・プ">
+                ぷ・プ<audio
+                  src="assets/audio/audio-pu.MP3"
+                  id="audio-ぷ・プ"
+                ></audio>
+              </td>
+              <td id="ぺ・ぺ">
+                ぺ・ぺ<audio
+                  src="assets/audio/audio-pe.MP3"
+                  id="audio-ぺ・ぺ"
+                ></audio>
+              </td>
+              <td id="ぽ・ポ">
+                ぽ・ポ<audio
+                  src="assets/audio/audio-po.MP3"
+                  id="audio-ぽ・ポ"
+                ></audio>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="table-5" class="table-container hidden" data-table="5">
+          <table>
+            <tr>
+              <td id="きゃ・キャ">
+                きゃ・キャ<audio
+                  src="assets/audio/audio-kya.MP3"
+                  id="audio-きゃ・キャ"
+                ></audio>
+              </td>
+              <td id="きゅ・キュ">
+                きゅ・キュ<audio
+                  src="assets/audio/audio-kyu.MP3"
+                  id="audio-きゅ・キュ"
+                ></audio>
+              </td>
+              <td id="きょ・キョ">
+                きょ・キョ<audio
+                  src="assets/audio/audio-kyo.MP3"
+                  id="audio-きょ・キョ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="しゃ・シャ">
+                しゃ・シャ<audio
+                  src="assets/audio/audio-sha.MP3"
+                  id="audio-しゃ・シャ"
+                ></audio>
+              </td>
+              <td id="しゅ・シュ">
+                しゅ・シュ<audio
+                  src="assets/audio/audio-shu.MP3"
+                  id="audio-しゅ・シュ"
+                ></audio>
+              </td>
+              <td id="しょ・ショ">
+                しょ・ショ<audio
+                  src="assets/audio/audio-sho.MP3"
+                  id="audio-しょ・ショ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ちゃ・チャ">
+                ちゃ・チャ<audio
+                  src="assets/audio/audio-cha.MP3"
+                  id="audio-ちゃ・チャ"
+                ></audio>
+              </td>
+              <td id="ちゅ・チュ">
+                ちゅ・チュ<audio
+                  src="assets/audio/audio-chu.MP3"
+                  id="audio-ちゅ・チュ"
+                ></audio>
+              </td>
+              <td id="ちょ・チョ">
+                ちょ・チョ<audio
+                  src="assets/audio/audio-cho.MP3"
+                  id="audio-ちょ・チョ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="にゃ・ニャ">
+                にゃ・ニャ<audio
+                  src="assets/audio/audio-nya.MP3"
+                  id="audio-にゃ・ニャ"
+                ></audio>
+              </td>
+              <td id="にゅ・ニュ">
+                にゅ・ニュ<audio
+                  src="assets/audio/audio-nyu.MP3"
+                  id="audio-にゅ・ニュ"
+                ></audio>
+              </td>
+              <td id="にょ・ニョ">
+                にょ・ニョ<audio
+                  src="assets/audio/audio-nyo.MP3"
+                  id="audio-にょ・ニョ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ひゃ・ヒャ">
+                ひゃ・ヒャ<audio
+                  src="assets/audio/audio-hya.MP3"
+                  id="audio-ひゃ・ヒャ"
+                ></audio>
+              </td>
+              <td id="ひゅ・ヒュ">
+                ひゅ・ヒュ<audio
+                  src="assets/audio/audio-hyu.MP3"
+                  id="audio-ひゅ・ヒュ"
+                ></audio>
+              </td>
+              <td id="ひょ・ヒョ">
+                ひょ・ヒョ<audio
+                  src="assets/audio/audio-hyo.MP3"
+                  id="audio-ひょ・ヒョ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="みゃ・ミャ">
+                みゃ・ミャ<audio
+                  src="assets/audio/audio-mya.MP3"
+                  id="audio-みゃ・ミャ"
+                ></audio>
+              </td>
+              <td id="みゅ・ミュ">
+                みゅ・ミュ<audio
+                  src="assets/audio/audio-myu.MP3"
+                  id="audio-みゅ・ミュ"
+                ></audio>
+              </td>
+              <td id="みょ・ミョ">
+                みょ・ミョ<audio
+                  src="assets/audio/audio-myo.MP3"
+                  id="audio-みょ・ミョ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="りゃ・リャ">
+                りゃ・リャ<audio
+                  src="assets/audio/audio-rya.MP3"
+                  id="audio-りゃ・リャ"
+                ></audio>
+              </td>
+              <td id="りゅ・リュ">
+                りゅ・リュ<audio
+                  src="assets/audio/audio-ryu.MP3"
+                  id="audio-りゅ・リュ"
+                ></audio>
+              </td>
+              <td id="りょ・りょ">
+                りょ・りょ<audio
+                  src="assets/audio/audio-ryo.MP3"
+                  id="audio-りょ・りょ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ぎゃ・ギャ">
+                ぎゃ・ギャ<audio
+                  src="assets/audio/audio-gya.MP3"
+                  id="audio-ぎゃ・ギャ"
+                ></audio>
+              </td>
+              <td id="ぎゅ・ギュ">
+                ぎゅ・ギュ<audio
+                  src="assets/audio/audio-gyu.MP3"
+                  id="audio-ぎゅ・ギュ"
+                ></audio>
+              </td>
+              <td id="ぎょ・ギョ">
+                ぎょ・ギョ<audio
+                  src="assets/audio/audio-gyo.MP3"
+                  id="audio-ぎょ・ギョ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="じゃ・ジャ">
+                じゃ・ジャ<audio
+                  src="assets/audio/audio-ja.MP3"
+                  id="audio-じゃ・ジャ"
+                ></audio>
+              </td>
+              <td id="じゅ・ジュ">
+                じゅ・ジュ<audio
+                  src="assets/audio/audio-ju.MP3"
+                  id="audio-じゅ・ジュ"
+                ></audio>
+              </td>
+              <td id="じょ・ジョ">
+                じょ・ジョ<audio
+                  src="assets/audio/audio-jo.MP3"
+                  id="audio-じょ・ジョ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="びゃ・ビャ">
+                びゃ・ビャ<audio
+                  src="assets/audio/audio-bya.MP3"
+                  id="audio-びゃ・ビャ"
+                ></audio>
+              </td>
+              <td id="びゅ・ビュ">
+                びゅ・ビュ<audio
+                  src="assets/audio/audio-byu.MP3"
+                  id="audio-びゅ・ビュ"
+                ></audio>
+              </td>
+              <td id="びょ・ビョ">
+                びょ・ビョ<audio
+                  src="assets/audio/audio-byo.MP3"
+                  id="audio-びょ・ビョ"
+                ></audio>
+              </td>
+            </tr>
+            <tr>
+              <td id="ぴゃ・ピャ">
+                ぴゃ・ピャ<audio
+                  src="assets/audio/audio-pya.MP3"
+                  id="audio-ぴゃ・ピャ"
+                ></audio>
+              </td>
+              <td id="ぴゅ・ピュ">
+                ぴゅ・ピュ<audio
+                  src="assets/audio/audio-pyu.MP3"
+                  id="audio-ぴゅ・ピュ"
+                ></audio>
+              </td>
+              <td id="ぴょ・ピョ">
+                ぴょ・ピョ<audio
+                  src="assets/audio/audio-pyo.MP3"
+                  id="audio-ぴょ・ピョ"
+                ></audio>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </section>
+    </body>
+  </main>
+</html>
